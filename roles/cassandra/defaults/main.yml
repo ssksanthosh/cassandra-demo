@@ -1,0 +1,13 @@
+---
+# defaults file for roles
+cassandra_repo: 'deb http://www.apache.org/dist/cassandra/debian 311x main'
+cassandra_repo_key: 'https://www.apache.org/dist/cassandra/KEYS'
+cassandra_home_directory: "/var/lib/cassandra"
+cassandra_cluster_size: "{{ groups['cassandra'] | length }}"
+cassandra_server_private_ip: "{{groups['cassandra']|join(',')}}" #Private IP of cassandra server
+cassandra_broadcast_rpc_address: "{{ cassandra_server_private_ip }}"
+cassandra_listen_interface: ''
+cassandra_root_dir: '/etc/cassandra'
+cassandra_rpc_address: 0.0.0.0
+
+
