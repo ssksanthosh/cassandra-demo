@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+        stages {
+            stage (' Checkout ansible private repo') {
+              steps {
+                echo "Checking out private repo"
+                git branch: params.private_repo_branch,url: 'https://github.com/ssksanthosh/cassandra-vars.git'
+                def var_path = pwd()
+              } 
+            }
+            stage ('Checkout ansible public repo') {
+              steps {
+                echo "Checking out public repo"
+                git branch: params.public_repo_branch,url: 'https://github.com/ssksanthosh/cassandra-demo.git'
+              }
+            }  
+            stage ('Run playbook'){
+              steps {
+                sh: 'ansible-playbook -i "$var_path"/hosts main.yml --valut-password-file $JENKINS_HOME/secrets/vault-pass --check'
+
+              }
+            }  
+          }   
+}    
